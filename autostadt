@@ -1,0 +1,32 @@
+#!/usr/bin/python3
+
+"""Twitter bot for autostadt"""
+
+import configparser
+import random
+import tweepy
+
+def find_random_city():
+    with open('stadtliste', 'r') as sl:
+        all_cities = sl.readlines()
+        r = random.randrange(len(all_cities))
+        return all_cities[r]
+
+def main():
+    random.seed()
+    if random.randrange(288) > 1:
+        # if run every 5 minutes, this is skipped once a day.
+        return
+    config = configparser.ConfigParser()
+    config.read('credentials.ini')
+    auth = tweepy.OAuthHandler(config['app']['key'], config['app']['secret'])
+    auth.set_access_token(config['user']['token'], config['user']['secret'])
+    city = find_random_city()
+    try:
+        twit = tweepy.API(auth)
+        twit.update_status("{} ist eine Stadt für Autos, nicht für Menschen.".format(city))
+    except BaseException as be:
+        return
+
+if __name__ == "__main__":
+    main()
