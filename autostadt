@@ -26,6 +26,7 @@ def main():
         twit = tweepy.API(auth)
         twit.update_status("{} ist eine Stadt für Autos, nicht für Menschen.".format(city))
     except BaseException as be:
+        print("Could not tweet:", be)
         return
 
 if __name__ == "__main__":
