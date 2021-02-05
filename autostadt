@@ -10,7 +10,7 @@ def find_random_city():
     with open('stadtliste', 'r') as sl:
         all_cities = sl.readlines()
         r = random.randrange(len(all_cities))
-        return all_cities[r]
+        return all_cities[r].strip()
 
 def main():
     random.seed()
